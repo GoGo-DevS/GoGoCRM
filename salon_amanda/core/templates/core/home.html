@@ -1,0 +1,460 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ============================================================
+     SECCIÓN 1 — HERO
+============================================================ -->
+<section id="inicio" class="hero-section">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-content">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8 col-md-10 col-11">
+                    <div class="hero-badge reveal">Bienvenida a Salón Amanda</div>
+                    <h1 class="hero-title reveal">
+                        Tu belleza,<br><em>nuestra pasión</em>
+                    </h1>
+                    <p class="hero-subtitle reveal">
+                        Salón de belleza premium en Mall Paseo Los Valles,<br class="d-none d-md-inline">
+                        Ciudad de los Valles, Chile
+                    </p>
+                    <div class="hero-buttons reveal">
+                        <a href="#reservar" class="btn btn-hero-primary">Reservar Ahora</a>
+                        <a href="#servicios" class="btn btn-hero-secondary">Ver Servicios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-arrow">
+        <a href="#reservar" aria-label="Ir a reservar">
+            <i class="bi bi-chevron-down"></i>
+        </a>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN 2 — RESERVAR
+============================================================ -->
+<section id="reservar" class="booking-section">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-7 col-md-9 col-11">
+                <div class="section-label reveal">Citas Online</div>
+                <h2 class="section-title reveal">Agenda tu cita</h2>
+                <p class="section-text reveal">
+                    Reserva tu hora de forma rápida y sencilla a través de AgendaPro, nuestra
+                    plataforma de agendamiento en línea. Elige el servicio, la profesional y el
+                    horario que más te acomode — ¡sin llamadas ni esperas!
+                </p>
+                <div class="booking-actions reveal">
+                    <a href="#" class="btn btn-booking-primary" target="_blank">
+                        <i class="bi bi-calendar-check me-2"></i>Reservar en AgendaPro
+                    </a>
+                    <p class="booking-separator">o escríbenos directamente</p>
+                    <a href="https://wa.me/56958469232?text=Hola%20Sal%C3%B3n%20Amanda%2C%20quiero%20agendar%20una%20cita"
+                       class="btn btn-whatsapp" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp me-2"></i>Escribir por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN 3 — PROFESIONALES
+============================================================ -->
+<section id="profesionales" class="team-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label reveal">Nuestro Equipo</div>
+            <h2 class="section-title reveal">Profesionales de excelencia</h2>
+            <p class="section-subtitle reveal">
+                Cada integrante de nuestro equipo es experta en su área,<br class="d-none d-md-inline">
+                comprometida con realzar tu belleza natural.
+            </p>
+        </div>
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-lg-4 col-md-6 col-10 reveal">
+                <div class="team-card">
+                    <div class="team-photo-wrapper">
+                        <div class="team-photo-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h4 class="team-name">Profesional 1</h4>
+                        <p class="team-specialty">Colorimetría</p>
+                        <p class="team-bio">Especialista en coloración y técnicas avanzadas de color, con años de experiencia en tendencias internacionales.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-10 reveal">
+                <div class="team-card">
+                    <div class="team-photo-wrapper">
+                        <div class="team-photo-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h4 class="team-name">Profesional 2</h4>
+                        <p class="team-specialty">Corte &amp; Peinado</p>
+                        <p class="team-bio">Maestra del corte femenino y masculino, con dominio en las últimas tendencias de peinados y estilos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-10 reveal">
+                <div class="team-card">
+                    <div class="team-photo-wrapper">
+                        <div class="team-photo-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h4 class="team-name">Profesional 3</h4>
+                        <p class="team-specialty">Tratamientos</p>
+                        <p class="team-bio">Experta en tratamientos capilares y nutrición del cabello, recuperando la vitalidad y brillo natural.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN 4 — SERVICIOS
+============================================================ -->
+<section id="servicios" class="services-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label reveal">Lo que ofrecemos</div>
+            <h2 class="section-title reveal">Nuestros Servicios</h2>
+            <p class="section-subtitle reveal">Cada servicio es una experiencia diseñada para ti.</p>
+        </div>
+        <div class="row g-4">
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card">
+                    <div class="service-icon"><i class="bi bi-scissors"></i></div>
+                    <h4 class="service-name">Corte de Pelo</h4>
+                    <p class="service-desc">Corte personalizado según tu tipo de rostro y estilo de vida. Incluye lavado y secado profesional.</p>
+                    <div class="service-price">Desde $15.000</div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card">
+                    <div class="service-icon"><i class="bi bi-palette"></i></div>
+                    <h4 class="service-name">Colorimetría</h4>
+                    <p class="service-desc">Coloración profesional con técnicas de última generación. Análisis de tono de piel incluido.</p>
+                    <div class="service-price">Desde $35.000</div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card">
+                    <div class="service-icon"><i class="bi bi-stars"></i></div>
+                    <h4 class="service-name">Mechas &amp; Highlights</h4>
+                    <p class="service-desc">Balayage, babylights y técnicas de mechas para una iluminación natural y luminosa.</p>
+                    <div class="service-price">Desde $45.000</div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card">
+                    <div class="service-icon"><i class="bi bi-droplet-half"></i></div>
+                    <h4 class="service-name">Tratamientos Capilares</h4>
+                    <p class="service-desc">Hidratación profunda, keratina y tratamientos nutritivos para restaurar tu cabello.</p>
+                    <div class="service-price">Desde $25.000</div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card">
+                    <div class="service-icon"><i class="bi bi-wind"></i></div>
+                    <h4 class="service-name">Peinados &amp; Brushing</h4>
+                    <p class="service-desc">Peinados para ocasiones especiales, eventos y brushing express para el día a día.</p>
+                    <div class="service-price">Desde $18.000</div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card">
+                    <div class="service-icon"><i class="bi bi-gem"></i></div>
+                    <h4 class="service-name">Manicure &amp; Nail Art</h4>
+                    <p class="service-desc">Manicure clásico, semipermanente y nail art de autor para complementar tu look.</p>
+                    <div class="service-price">Desde $12.000</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="text-center mt-5 reveal">
+            <a href="#reservar" class="btn btn-dark btn-lg px-5 rounded-pill">Agendar un Servicio</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN 5 — PRODUCTOS
+============================================================ -->
+<section id="productos" class="products-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label reveal">Tienda</div>
+            <h2 class="section-title reveal">Nuestros Productos</h2>
+            <p class="section-subtitle reveal">Lleva a casa lo mejor para tu cabello</p>
+        </div>
+        <div class="row g-4">
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-img-placeholder product-img-1">
+                            <i class="bi bi-droplet"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h5 class="product-name">Shampoo Profesional</h5>
+                        <p class="product-desc">Limpieza profunda con fórmula nutritiva para todo tipo de cabello. Sin sulfatos agresivos.</p>
+                        <a href="https://wa.me/56958469232?text=Hola%2C%20me%20interesa%20el%20Shampoo%20Profesional"
+                           class="btn btn-whatsapp-outline" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp me-2"></i>Consultar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-img-placeholder product-img-2">
+                            <i class="bi bi-heart"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h5 class="product-name">Mascarilla Hidratante</h5>
+                        <p class="product-desc">Hidratación intensiva para restaurar la suavidad y brillo del cabello seco o dañado.</p>
+                        <a href="https://wa.me/56958469232?text=Hola%2C%20me%20interesa%20la%20Mascarilla%20Hidratante"
+                           class="btn btn-whatsapp-outline" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp me-2"></i>Consultar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-img-placeholder product-img-3">
+                            <i class="bi bi-brightness-high"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h5 class="product-name">Aceite Capilar</h5>
+                        <p class="product-desc">Aceite nutritivo de alta penetración para un acabado sedoso, brillante y sin frizz.</p>
+                        <a href="https://wa.me/56958469232?text=Hola%2C%20me%20interesa%20el%20Aceite%20Capilar"
+                           class="btn btn-whatsapp-outline" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp me-2"></i>Consultar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-img-placeholder product-img-4">
+                            <i class="bi bi-award"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h5 class="product-name">Olaplex</h5>
+                        <p class="product-desc">Tratamiento reparador de bonds que regenera el cabello dañado desde adentro hacia afuera.</p>
+                        <a href="https://wa.me/56958469232?text=Hola%2C%20me%20interesa%20el%20Olaplex"
+                           class="btn btn-whatsapp-outline" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp me-2"></i>Consultar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-img-placeholder product-img-5">
+                            <i class="bi bi-palette2"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h5 class="product-name">Tinte Profesional</h5>
+                        <p class="product-desc">Coloración permanente de alta cobertura y larga duración para uso profesional en casa.</p>
+                        <a href="https://wa.me/56958469232?text=Hola%2C%20me%20interesa%20el%20Tinte%20Profesional"
+                           class="btn btn-whatsapp-outline" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp me-2"></i>Consultar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-img-placeholder product-img-6">
+                            <i class="bi bi-flower1"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h5 class="product-name">Perfume Capilar</h5>
+                        <p class="product-desc">Fragancia de alta duración para el cabello con efecto suavizante, nutritivo y brilloso.</p>
+                        <a href="https://wa.me/56958469232?text=Hola%2C%20me%20interesa%20el%20Perfume%20Capilar"
+                           class="btn btn-whatsapp-outline" target="_blank" rel="noopener">
+                            <i class="bi bi-whatsapp me-2"></i>Consultar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN 6 — GALERÍA
+============================================================ -->
+<section id="galeria" class="gallery-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label reveal">Nuestro Trabajo</div>
+            <h2 class="section-title reveal">Galería</h2>
+            <p class="section-subtitle reveal">Cada imagen cuenta una historia de transformación.</p>
+        </div>
+        <div class="gallery-grid reveal">
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-1"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-2"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-3"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-4"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-5"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-6"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-7"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-8"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder gal-9"><i class="bi bi-camera"></i></div>
+                <div class="gallery-overlay"><i class="bi bi-eye"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN 7 — NOSOTROS
+============================================================ -->
+<section id="nosotros" class="about-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6 reveal">
+                <div class="section-label">Nuestra Historia</div>
+                <h2 class="section-title">Somos Salón Amanda</h2>
+                <p class="about-text">
+                    Salón Amanda nació con una misión simple pero poderosa: hacer que cada mujer
+                    que cruce nuestra puerta se sienta más bella, segura y radiante. Creemos que
+                    la belleza es una experiencia, no solo un resultado.
+                </p>
+                <p class="about-text">
+                    Ubicados en el corazón de Mall Paseo Los Valles, en Ciudad de los Valles,
+                    somos más que un salón de belleza: somos un espacio de cuidado personal,
+                    bienestar y renovación femenina.
+                </p>
+                <p class="about-text">
+                    Nuestro equipo de profesionales se mantiene en constante capacitación,
+                    incorporando las últimas tendencias mundiales en colorimetría, tratamientos
+                    y técnicas de peinado para ofrecerte siempre lo mejor de la industria.
+                </p>
+                <div class="about-details">
+                    <div class="about-detail-item">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <div>
+                            <strong>Dirección</strong>
+                            <span>Av del Canal 19811, local 9, Mall Paseo Los Valles</span>
+                        </div>
+                    </div>
+                    <div class="about-detail-item">
+                        <i class="bi bi-clock-fill"></i>
+                        <div>
+                            <strong>Horario</strong>
+                            <span>Lunes a Sábado, 10:00 – 20:00 hrs</span>
+                        </div>
+                    </div>
+                    <div class="about-detail-item">
+                        <i class="bi bi-telephone-fill"></i>
+                        <div>
+                            <strong>Teléfono</strong>
+                            <span>+56 9 5846 9232</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 reveal">
+                <div class="about-image-wrapper">
+                    <div class="about-img-placeholder">
+                        <i class="bi bi-building"></i>
+                        <span>Salón Amanda</span>
+                    </div>
+                </div>
+                <div class="map-wrapper mt-4">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.5!2d-70.7554!3d-33.4315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662bf2e9b4b4b4b%3A0x0!2sMall+Paseo+Los+Valles!5e0!3m2!1ses-419!2scl!4v1700000000000!5m2!1ses-419!2scl"
+                        width="100%"
+                        height="240"
+                        style="border:0; border-radius: 12px;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Ubicación Salón Amanda — Mall Paseo Los Valles">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

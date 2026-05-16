@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Salón Amanda — Salón de belleza premium en Mall Paseo Los Valles, Ciudad de los Valles. Cortes, colorimetría, tratamientos y más.">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>{% block title %}Salón Amanda — Belleza Premium{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+    <div class="container">
+        <a class="navbar-brand" href="#inicio">
+            <span class="brand-logo">Salón Amanda</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Abrir menú">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="#reservar">Reservar</a></li>
+                <li class="nav-item"><a class="nav-link" href="#profesionales">Profesionales</a></li>
+                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#productos">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+                <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+                <li class="nav-item ms-lg-3">
+                    <a class="btn btn-dark navbar-cta" href="#reservar">Reservar Ahora</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== CONTENIDO PRINCIPAL ===== -->
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-main">
+    <div class="container">
+        <div class="row gy-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-brand">Salón Amanda</div>
+                <p class="footer-tagline">Tu belleza, nuestra pasión.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Instagram de Salón Amanda">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/56958469232" class="social-link" aria-label="WhatsApp de Salón Amanda" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h6 class="footer-heading">Navegación</h6>
+                <ul class="footer-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#reservar">Reservar</a></li>
+                    <li><a href="#profesionales">Profesionales</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-5 col-md-12">
+                <h6 class="footer-heading">Contacto</h6>
+                <ul class="footer-contact">
+                    <li>
+                        <i class="bi bi-geo-alt"></i>
+                        <span>Av del Canal 19811, local 9, Mall Paseo Los Valles, Ciudad de los Valles</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-telephone"></i>
+                        <span>+56 9 5846 9232</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-clock"></i>
+                        <span>Lunes a Sábado, 10:00 – 20:00 hrs</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <p>© 2025 Salón Amanda. Desarrollado por <a href="https://gogodevs.com" target="_blank" rel="noopener">GoGoDevS</a></p>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== WHATSAPP FLOTANTE ===== -->
+<a href="https://wa.me/56958469232?text=Hola%20Sal%C3%B3n%20Amanda%2C%20me%20gustar%C3%ADa%20consultar%20sobre%20sus%20servicios"
+   class="whatsapp-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <i class="bi bi-whatsapp"></i>
+</a>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS -->
+<script src="{% static 'js/main.js' %}"></script>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>
