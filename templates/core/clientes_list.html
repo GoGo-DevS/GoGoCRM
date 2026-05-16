@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Clientes{% endblock %}
+{% block topbar_title %}Clientes{% endblock %}
+{% block topbar_actions %}
+  <a href="{% url 'core:cliente_create' %}" class="btn-g"><i class="bi bi-person-plus"></i> Nuevo cliente</a>
+{% endblock %}
+{% block content %}
+<div class="g-card">
+  <div class="g-card-header">
+    <span class="g-card-title">Todos los clientes</span>
+    <form method="get" style="display:flex;gap:0.5rem;">
+      <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Buscar..." style="width:220px;">
+      <button type="submit" class="btn-g-ghost"><i class="bi bi-search"></i></button>
+    </form>
+  </div>
+  <table class="g-table">
+    <thead><tr><th>Nombre</th><th>Empresa</th><th>Email</th><th>Teléfono</th><th>Proyectos</th><th></th></tr></thead>
+    <tbody>
+      {% for c in clientes %}
+      <tr>
+        <td><a href="{% url 'core:cliente_detail' c.pk %}">{{ c.nombre }}</a></td>
+        <td>{{ c.empresa|default:"—" }}</td>
+        <td style="color:var(--text-3);">{{ c.email|default:"—" }}</td>
+        <td style="color:var(--text-3);">{{ c.telefono|default:"—" }}</td>
+        <td><span style="font-weight:700;color:var(--blue-2);">{{ c.num_proyectos }}</span></td>
+        <td><a href="{% url 'core:cliente_edit' c.pk %}" class="btn-g-ghost" style="font-size:0.72rem;padding:0.2rem 0.5rem;"><i class="bi bi-pencil"></i></a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6"><div class="empty-state"><i class="bi bi-people"></i><p>Sin clientes aún</p></div></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

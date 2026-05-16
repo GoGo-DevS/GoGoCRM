@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+{% load core_tags %}
+{% block title %}{{ proyecto.nombre }}{% endblock %}
+{% block topbar_title %}{{ proyecto.nombre }}{% endblock %}
+{% block topbar_actions %}
+  <a href="{% url 'core:proyecto_kanban' proyecto.pk %}" class="btn-g-ghost"><i class="bi bi-kanban"></i> Kanban</a>
+  <a href="{% url 'core:proyecto_edit' proyecto.pk %}" class="btn-g-ghost"><i class="bi bi-pencil"></i> Editar</a>
+{% endblock %}
+
+{% block content %}
+<!-- Header proyecto -->
+<div class="g-card mb-3">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+    <div>
+      <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;">
+        <span class="badge-estado badge-{{ proyecto.estado }}" style="font-size:0.78rem;padding:0.3rem 0.8rem;">{{ proyecto.get_estado_display }}</span>
+        <span style="font-size:0.78rem;color:var(--text-3);">{{ proyecto.get_tipo_display }}</span>
+      </div>
+      <h1 style="font-size:1.4rem;font-weight:700;margin:0 0 0.3rem;">{{ proyecto.nombre }}</h1>
+      <div style="color:var(--text-3);font-size:0.85rem;">
+        <a href="{% url 'core:cliente_detail' proyecto.cliente.pk %}" style="color:var(--blue-2);text-decoration:none;">{{ proyecto.cliente.nombre }}</a>
+        {% if proyecto.dominio %} · <span>{{ proyecto.dominio }}</span>{% endif %}
+        {% if proyecto.stack %} · <span>{{ proyecto.stack }}</span>{% endif %}
+      </div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:1.6rem;font-weight:800;color:var(--text-1);">${{ proyecto.monto_total|floatformat:0 }}</div>
+      <div style="font-size:0.78rem;color:var(--green);">Cobrado: ${{ proyecto.total_pagado|floatformat:0 }}</div>
+      <div style="font-size:0.78rem;color:var(--amber);">Pendiente: ${{ proyecto.saldo_pendiente|floatformat:0 }}</div>
+    </div>
+  </div>
+  <!-- Barra progreso tareas -->
+  <div style="margin-top:1rem;">
+    <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text-3);margin-bottom:0.3rem;">
+      <span>Progreso tareas</span>
+      <span>{{ proyecto.tareas_completadas }}/{{ proyecto.tareas_total }} — {{ proyecto.progreso }}%</span>
+    </div>
+    <div class="g-progress">
+      <div class="g-progress-bar {% if proyecto.progreso == 100 %}green{% endif %}" style="width:{{ proyecto.progreso }}%"></div>
+    </div>
+  </div>
+  {% if proyecto.notas %}
+  <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:0.85rem;color:var(--text-2);">{{ proyecto.notas }}</div>
+  {% endif %}
+</div>
+
+<div class="row g-3">
+  <!-- TAREAS -->
+  <div class="col-lg-6">
+    <div class="g-card">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-list-check me-2"></i>Tareas</span>
+        <button class="btn-g" style="font-size:0.75rem;padding:0.3rem 0.7rem;" onclick="document.getElementById('form-tarea').classList.toggle('d-none')">
+          <i class="bi bi-plus"></i> Nueva
+        </button>
+      </div>
+
+      <!-- Form nueva tarea (oculto) -->
+      <div id="form-tarea" class="d-none mb-3 p-3" style="background:var(--bg-hover);border-radius:8px;">
+        <form method="post" action="{% url 'core:tarea_create' %}" id="tarea-form">
+          {% csrf_token %}
+          <input type="hidden" name="proyecto" value="{{ proyecto.pk }}">
+          <div class="row g-2">
+            <div class="col-12">
+              <input type="text" name="titulo" class="form-control" placeholder="Título de la tarea" required>
+            </div>
+            <div class="col-6">
+              <select name="estado" class="form-select">
+                {% for val, label in estados_tarea %}
+                <option value="{{ val }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-6">
+              <select name="prioridad" class="form-select">
+                <option value="baja">Baja</option>
+                <option value="media" selected>Media</option>
+                <option value="alta">Alta</option>
+                <option value="critica">Crítica</option>
+              </select>
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn-g" style="font-size:0.82rem;">Agregar</button>
+              <button type="button" class="btn-g-ghost" style="font-size:0.82rem;" onclick="document.getElementById('form-tarea').classList.add('d-none')">Cancelar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Lista de tareas por estado -->
+      {% for estado_val, estado_label in estados_tarea %}
+        {% with tareas=tareas_por_estado|get_item:estado_val %}
+        {% if tareas %}
+        <div style="margin-bottom:0.8rem;">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:0.4rem;">{{ estado_label }} ({{ tareas.count }})</div>
+          {% for tarea in tareas %}
+          <div class="tarea-item" data-id="{{ tarea.pk }}" style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.6rem;border-radius:8px;margin-bottom:0.3rem;background:var(--bg-hover);">
+            <input type="checkbox" class="form-check-input tarea-check" data-id="{{ tarea.pk }}" {% if tarea.estado == 'hecho' %}checked{% endif %} style="margin:0;flex-shrink:0;">
+            <span style="flex:1;font-size:0.85rem;color:{% if tarea.estado == 'hecho' %}var(--text-3);text-decoration:line-through{% else %}var(--text-1){% endif %}">{{ tarea.titulo }}</span>
+            <span class="badge-estado badge-{{ tarea.prioridad }}" style="font-size:0.65rem;flex-shrink:0;">{{ tarea.get_prioridad_display }}</span>
+            <button class="tarea-delete" data-id="{{ tarea.pk }}" style="background:none;border:none;color:var(--text-3);cursor:pointer;padding:0;font-size:0.85rem;" title="Eliminar">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+      {% endfor %}
+      {% if proyecto.tareas_total == 0 %}
+        <div class="empty-state" style="padding:1.5rem;"><i class="bi bi-list-check"></i><p>Sin tareas aún</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- PAGOS + SOPORTE -->
+  <div class="col-lg-6">
+    <!-- Pagos -->
+    <div class="g-card mb-3">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-cash-coin me-2"></i>Pagos</span>
+        <button class="btn-g" style="font-size:0.75rem;padding:0.3rem 0.7rem;" onclick="document.getElementById('form-pago').classList.toggle('d-none')">
+          <i class="bi bi-plus"></i> Agregar
+        </button>
+      </div>
+
+      <div id="form-pago" class="d-none mb-3 p-3" style="background:var(--bg-hover);border-radius:8px;">
+        <form method="post" action="{% url 'core:pago_create' proyecto.pk %}">
+          {% csrf_token %}
+          <div class="row g-2">
+            <div class="col-6">{{ pago_form.tipo }}</div>
+            <div class="col-6">{{ pago_form.monto }}</div>
+            <div class="col-6">{{ pago_form.metodo }}</div>
+            <div class="col-6">{{ pago_form.fecha_esperada }}</div>
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn-g" style="font-size:0.82rem;">Guardar pago</button>
+              <button type="button" class="btn-g-ghost" style="font-size:0.82rem;" onclick="document.getElementById('form-pago').classList.add('d-none')">Cancelar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {% for pago in pagos %}
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.55rem 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <button class="pago-toggle" data-id="{{ pago.pk }}" style="background:none;border:none;padding:0;cursor:pointer;">
+            <i class="bi bi-{{ pago.pagado|yesno:'check-circle-fill,circle' }}" style="color:{% if pago.pagado %}var(--green){% else %}var(--text-3){% endif %};font-size:1rem;"></i>
+          </button>
+          <div>
+            <div style="font-size:0.85rem;color:var(--text-1);">{{ pago.get_tipo_display }}</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">{{ pago.get_metodo_display }}{% if pago.fecha_esperada %} · {{ pago.fecha_esperada }}{% endif %}</div>
+          </div>
+        </div>
+        <span style="font-weight:700;color:{% if pago.pagado %}var(--green){% else %}var(--amber){% endif %};">${{ pago.monto|floatformat:0 }}</span>
+      </div>
+      {% empty %}
+        <div class="empty-state" style="padding:1.2rem;"><i class="bi bi-cash-coin"></i><p>Sin pagos registrados</p></div>
+      {% endfor %}
+    </div>
+
+    <!-- Soporte -->
+    <div class="g-card">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-headset me-2"></i>Soporte / Tickets</span>
+        <button class="btn-g" style="font-size:0.75rem;padding:0.3rem 0.7rem;" onclick="document.getElementById('form-soporte').classList.toggle('d-none')">
+          <i class="bi bi-plus"></i> Ticket
+        </button>
+      </div>
+
+      <div id="form-soporte" class="d-none mb-3 p-3" style="background:var(--bg-hover);border-radius:8px;">
+        <form method="post" action="{% url 'core:soporte_create' proyecto.pk %}">
+          {% csrf_token %}
+          <div class="row g-2">
+            <div class="col-6">{{ soporte_form.tipo }}</div>
+            <div class="col-6">{{ soporte_form.prioridad }}</div>
+            <div class="col-12">{{ soporte_form.titulo }}</div>
+            <div class="col-12">{{ soporte_form.descripcion }}</div>
+            <div class="col-12 d-flex gap-2">
+              <button type="submit" class="btn-g" style="font-size:0.82rem;">Crear ticket</button>
+              <button type="button" class="btn-g-ghost" style="font-size:0.82rem;" onclick="document.getElementById('form-soporte').classList.add('d-none')">Cancelar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {% for ticket in soportes %}
+      <div style="padding:0.55rem 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:0.85rem;color:var(--text-1);">{{ ticket.titulo|truncatechars:50 }}</span>
+          <div style="display:flex;gap:0.4rem;align-items:center;">
+            <span class="badge-estado badge-{{ ticket.prioridad }}" style="font-size:0.65rem;">{{ ticket.get_prioridad_display }}</span>
+            <select class="soporte-estado" data-id="{{ ticket.pk }}" style="font-size:0.72rem;background:var(--bg-hover);border:1px solid var(--border-2);color:var(--text-2);border-radius:6px;padding:0.15rem 0.4rem;">
+              {% for val, label in ticket.ESTADO_CHOICES %}
+              <option value="{{ val }}" {% if ticket.estado == val %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div style="font-size:0.72rem;color:var(--text-3);margin-top:0.2rem;">{{ ticket.get_tipo_display }}</div>
+      </div>
+      {% empty %}
+        <div class="empty-state" style="padding:1.2rem;"><i class="bi bi-headset"></i><p>Sin tickets</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const csrfToken = '{{ csrf_token }}';
+
+function post(url, data) {
+  return fetch(url, {
+    method: 'POST',
+    headers: {'X-CSRFToken': csrfToken, 'Content-Type': 'application/x-www-form-urlencoded'},
+    body: new URLSearchParams(data)
+  }).then(r => r.json());
+}
+
+// Toggle tarea check
+document.querySelectorAll('.tarea-check').forEach(cb => {
+  cb.addEventListener('change', function() {
+    const id = this.dataset.id;
+    const estado = this.checked ? 'hecho' : 'por_hacer';
+    post(`/tareas/${id}/estado/`, {estado}).then(d => {
+      if (d.ok) location.reload();
+    });
+  });
+});
+
+// Eliminar tarea
+document.querySelectorAll('.tarea-delete').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (confirm('¿Eliminar tarea?')) {
+      post(`/tareas/${this.dataset.id}/eliminar/`, {}).then(d => {
+        if (d.ok) location.reload();
+      });
+    }
+  });
+});
+
+// Toggle pago
+document.querySelectorAll('.pago-toggle').forEach(btn => {
+  btn.addEventListener('click', function() {
+    post(`/pagos/${this.dataset.id}/toggle/`, {}).then(d => {
+      if (d.ok) location.reload();
+    });
+  });
+});
+
+// Estado soporte
+document.querySelectorAll('.soporte-estado').forEach(sel => {
+  sel.addEventListener('change', function() {
+    post(`/soporte/${this.dataset.id}/estado/`, {estado: this.value});
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ cliente.nombre }}{% endblock %}
+{% block topbar_title %}{{ cliente.nombre }}{% endblock %}
+{% block topbar_actions %}
+  <a href="{% url 'core:proyecto_create' %}" class="btn-g"><i class="bi bi-plus"></i> Nuevo proyecto</a>
+  <a href="{% url 'core:cliente_edit' cliente.pk %}" class="btn-g-ghost"><i class="bi bi-pencil"></i> Editar</a>
+{% endblock %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="g-card">
+      <div class="g-card-title mb-3">Datos de contacto</div>
+      {% if cliente.empresa %}<div style="margin-bottom:0.6rem;"><span style="color:var(--text-3);font-size:0.72rem;">EMPRESA</span><div>{{ cliente.empresa }}</div></div>{% endif %}
+      {% if cliente.email %}<div style="margin-bottom:0.6rem;"><span style="color:var(--text-3);font-size:0.72rem;">EMAIL</span><div><a href="mailto:{{ cliente.email }}" style="color:var(--blue-2);">{{ cliente.email }}</a></div></div>{% endif %}
+      {% if cliente.telefono %}<div style="margin-bottom:0.6rem;"><span style="color:var(--text-3);font-size:0.72rem;">TELÉFONO</span><div>{{ cliente.telefono }}</div></div>{% endif %}
+      {% if cliente.instagram %}<div style="margin-bottom:0.6rem;"><span style="color:var(--text-3);font-size:0.72rem;">INSTAGRAM</span><div style="color:var(--blue-2);">{{ cliente.instagram }}</div></div>{% endif %}
+      {% if cliente.notas %}<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:0.85rem;color:var(--text-2);">{{ cliente.notas }}</div>{% endif %}
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="g-card">
+      <div class="g-card-title mb-3">Proyectos</div>
+      <table class="g-table">
+        <thead><tr><th>Proyecto</th><th>Estado</th><th>Monto</th><th>Progreso</th></tr></thead>
+        <tbody>
+          {% for p in proyectos %}
+          <tr>
+            <td><a href="{% url 'core:proyecto_detail' p.pk %}">{{ p.nombre }}</a></td>
+            <td><span class="badge-estado badge-{{ p.estado }}">{{ p.get_estado_display }}</span></td>
+            <td>${{ p.monto_total|floatformat:0 }}</td>
+            <td>
+              <div class="g-progress" style="width:80px;display:inline-block;">
+                <div class="g-progress-bar" style="width:{{ p.progreso }}%"></div>
+              </div>
+              <span style="font-size:0.7rem;color:var(--text-3);margin-left:4px;">{{ p.progreso }}%</span>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" style="text-align:center;color:var(--text-3);">Sin proyectos</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Proyectos{% endblock %}
+{% block topbar_title %}Proyectos{% endblock %}
+{% block topbar_actions %}<a href="{% url 'core:proyecto_create' %}" class="btn-g"><i class="bi bi-plus"></i> Nuevo proyecto</a>{% endblock %}
+{% block content %}
+<div class="g-card">
+  <div class="g-card-header">
+    <span class="g-card-title">Todos los proyectos</span>
+    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+      <a href="{% url 'core:proyectos' %}" class="btn-g-ghost {% if not estado_filter %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Todos</a>
+      {% for val, label in estados %}
+      <a href="?estado={{ val }}" class="btn-g-ghost {% if estado_filter == val %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">{{ label }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  <table class="g-table">
+    <thead><tr><th>Proyecto</th><th>Cliente</th><th>Estado</th><th>Monto</th><th>Cobrado</th><th>Progreso</th><th></th></tr></thead>
+    <tbody>
+      {% for p in proyectos %}
+      <tr>
+        <td><a href="{% url 'core:proyecto_detail' p.pk %}">{{ p.nombre }}</a></td>
+        <td><a href="{% url 'core:cliente_detail' p.cliente.pk %}" style="color:var(--text-2);">{{ p.cliente.nombre }}</a></td>
+        <td><span class="badge-estado badge-{{ p.estado }}">{{ p.get_estado_display }}</span></td>
+        <td style="font-weight:600;color:var(--text-1);">${{ p.monto_total|floatformat:0 }}</td>
+        <td style="color:var(--green);">${{ p.total_pagado|floatformat:0 }}</td>
+        <td>
+          <div class="g-progress" style="width:80px;display:inline-block;vertical-align:middle;">
+            <div class="g-progress-bar {% if p.progreso == 100 %}green{% endif %}" style="width:{{ p.progreso }}%"></div>
+          </div>
+          <span style="font-size:0.7rem;color:var(--text-3);margin-left:4px;">{{ p.progreso }}%</span>
+        </td>
+        <td>
+          <a href="{% url 'core:proyecto_kanban' p.pk %}" class="btn-g-ghost" style="font-size:0.72rem;padding:0.2rem 0.5rem;"><i class="bi bi-kanban"></i></a>
+          <a href="{% url 'core:proyecto_edit' p.pk %}" class="btn-g-ghost" style="font-size:0.72rem;padding:0.2rem 0.5rem;"><i class="bi bi-pencil"></i></a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7"><div class="empty-state"><i class="bi bi-kanban"></i><p>Sin proyectos</p></div></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

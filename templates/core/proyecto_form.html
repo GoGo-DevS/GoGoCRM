@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block topbar_title %}{{ titulo }}{% endblock %}
+{% block content %}
+<div class="g-card" style="max-width:700px;">
+  <div class="g-card-header"><span class="g-card-title">{{ titulo }}</span></div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-8"><label class="form-label">Cliente</label>{{ form.cliente }}</div>
+      <div class="col-md-4"><label class="form-label">Tipo</label>{{ form.tipo }}</div>
+      <div class="col-12"><label class="form-label">Nombre del proyecto</label>{{ form.nombre }}</div>
+      <div class="col-md-6"><label class="form-label">Estado</label>{{ form.estado }}</div>
+      <div class="col-md-6"><label class="form-label">Monto total (CLP)</label>{{ form.monto_total }}</div>
+      <div class="col-12"><label class="form-label">Descripción</label>{{ form.descripcion }}</div>
+      <div class="col-md-6"><label class="form-label">Dominio</label>{{ form.dominio }}</div>
+      <div class="col-md-6"><label class="form-label">Stack tecnológico</label>{{ form.stack }}</div>
+      <div class="col-md-6"><label class="form-label">Fecha inicio</label>{{ form.fecha_inicio }}</div>
+      <div class="col-md-6"><label class="form-label">Fecha entrega</label>{{ form.fecha_entrega }}</div>
+      <div class="col-12"><label class="form-label">Notas internas</label>{{ form.notas }}</div>
+      <div class="col-12 d-flex gap-2">
+        <button type="submit" class="btn-g">Guardar proyecto</button>
+        <a href="{% url 'core:proyectos' %}" class="btn-g-ghost">Cancelar</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

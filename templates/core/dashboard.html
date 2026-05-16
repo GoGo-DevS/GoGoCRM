@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block topbar_title %}Dashboard{% endblock %}
+{% block topbar_actions %}
+  <a href="{% url 'core:proyecto_create' %}" class="btn-g"><i class="bi bi-plus-lg"></i> Nuevo proyecto</a>
+  <a href="{% url 'core:cliente_create' %}" class="btn-g-ghost"><i class="bi bi-person-plus"></i> Cliente</a>
+{% endblock %}
+
+{% block content %}
+<!-- Stats -->
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-label">Pipeline total</div>
+    <div class="stat-value blue">${{ total_pipeline|floatformat:0 }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Cobrado</div>
+    <div class="stat-value green">${{ total_cobrado|floatformat:0 }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Por cobrar</div>
+    <div class="stat-value amber">${{ por_cobrar|floatformat:0 }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Clientes / Proyectos</div>
+    <div class="stat-value">{{ total_clientes }} / {{ total_proyectos }}</div>
+  </div>
+</div>
+
+<!-- Estado de proyectos -->
+<div class="row g-3 mb-3">
+  <div class="col-lg-8">
+    <div class="g-card">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-kanban me-2"></i>Proyectos activos</span>
+        <a href="{% url 'core:proyectos' %}" class="btn-g-ghost" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Ver todos</a>
+      </div>
+      {% if proyectos_activos %}
+        <table class="g-table">
+          <thead>
+            <tr>
+              <th>Proyecto</th>
+              <th>Cliente</th>
+              <th>Estado</th>
+              <th>Progreso</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in proyectos_activos %}
+            <tr>
+              <td><a href="{% url 'core:proyecto_detail' p.pk %}">{{ p.nombre }}</a></td>
+              <td>{{ p.cliente.nombre }}</td>
+              <td><span class="badge-estado badge-{{ p.estado }}">{{ p.get_estado_display }}</span></td>
+              <td style="min-width:100px;">
+                <div class="g-progress">
+                  <div class="g-progress-bar {% if p.progreso == 100 %}green{% endif %}" style="width:{{ p.progreso }}%"></div>
+                </div>
+                <span style="font-size:0.7rem;color:var(--text-3);">{{ p.progreso }}%</span>
+              </td>
+              <td style="color:var(--text-1);font-weight:600;">${{ p.monto_total|floatformat:0 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="empty-state"><i class="bi bi-kanban"></i><p>Sin proyectos activos</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="g-card">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-bar-chart me-2"></i>Por estado</span>
+      </div>
+      {% for estado, count in estado_counts.items %}
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border);">
+        <span class="badge-estado badge-{{ estado }}">{{ estado|capfirst }}</span>
+        <span style="font-weight:700;color:var(--text-1);">{{ count }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Tareas urgentes + Pagos pendientes -->
+<div class="row g-3">
+  <div class="col-lg-4">
+    <div class="g-card">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-exclamation-triangle me-2" style="color:var(--red)"></i>Tareas urgentes</span>
+      </div>
+      {% if tareas_urgentes %}
+        {% for t in tareas_urgentes %}
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:0.85rem;color:var(--text-1);">{{ t.titulo|truncatechars:40 }}</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">{{ t.proyecto.nombre }}</div>
+          </div>
+          <span class="badge-estado badge-{{ t.prioridad }}">{{ t.get_prioridad_display }}</span>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-state" style="padding:1.5rem;"><i class="bi bi-check-circle" style="color:var(--green)"></i><p>Sin tareas urgentes</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="g-card">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-cash-coin me-2" style="color:var(--amber)"></i>Pagos pendientes</span>
+        <a href="{% url 'core:pagos' %}" class="btn-g-ghost" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Ver todos</a>
+      </div>
+      {% if pagos_pendientes %}
+        {% for pago in pagos_pendientes %}
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:0.85rem;color:var(--text-1);">{{ pago.proyecto.nombre }}</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">{{ pago.get_tipo_display }}</div>
+          </div>
+          <span style="font-weight:700;color:var(--amber);">${{ pago.monto|floatformat:0 }}</span>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-state" style="padding:1.5rem;"><i class="bi bi-check-circle" style="color:var(--green)"></i><p>Sin pagos pendientes</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="g-card">
+      <div class="g-card-header">
+        <span class="g-card-title"><i class="bi bi-headset me-2"></i>Tickets abiertos</span>
+        <a href="{% url 'core:soporte' %}" class="btn-g-ghost" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Ver todos</a>
+      </div>
+      {% if tickets_abiertos %}
+        {% for t in tickets_abiertos %}
+        <div style="padding:0.5rem 0;border-bottom:1px solid var(--border);">
+          <div style="font-size:0.85rem;color:var(--text-1);">{{ t.titulo|truncatechars:40 }}</div>
+          <div style="display:flex;gap:0.4rem;margin-top:0.2rem;">
+            <span class="badge-estado badge-{{ t.prioridad }}" style="font-size:0.65rem;">{{ t.get_prioridad_display }}</span>
+            <span style="font-size:0.7rem;color:var(--text-3);">{{ t.proyecto.nombre }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-state" style="padding:1.5rem;"><i class="bi bi-headset" style="color:var(--green)"></i><p>Sin tickets abiertos</p></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

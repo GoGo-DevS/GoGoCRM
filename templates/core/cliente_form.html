@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block topbar_title %}{{ titulo }}{% endblock %}
+{% block content %}
+<div class="g-card" style="max-width:600px;">
+  <div class="g-card-header"><span class="g-card-title">{{ titulo }}</span></div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6"><label class="form-label">Nombre</label>{{ form.nombre }}</div>
+      <div class="col-md-6"><label class="form-label">Empresa</label>{{ form.empresa }}</div>
+      <div class="col-md-6"><label class="form-label">Email</label>{{ form.email }}</div>
+      <div class="col-md-6"><label class="form-label">Teléfono</label>{{ form.telefono }}</div>
+      <div class="col-12"><label class="form-label">Instagram</label>{{ form.instagram }}</div>
+      <div class="col-12"><label class="form-label">Notas</label>{{ form.notas }}</div>
+      <div class="col-12 d-flex gap-2">
+        <button type="submit" class="btn-g">Guardar cliente</button>
+        <a href="{% url 'core:clientes' %}" class="btn-g-ghost">Cancelar</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

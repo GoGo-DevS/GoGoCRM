@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load core_tags %}
+{% block title %}Kanban — {{ proyecto.nombre }}{% endblock %}
+{% block topbar_title %}Kanban — {{ proyecto.nombre }}{% endblock %}
+{% block topbar_actions %}
+  <a href="{% url 'core:proyecto_detail' proyecto.pk %}" class="btn-g-ghost"><i class="bi bi-arrow-left"></i> Volver</a>
+  <button class="btn-g" onclick="document.getElementById('form-tarea').classList.toggle('d-none')"><i class="bi bi-plus"></i> Nueva tarea</button>
+{% endblock %}
+{% block content %}
+<!-- Form nueva tarea -->
+<div id="form-tarea" class="d-none g-card mb-3" style="max-width:500px;">
+  <div class="g-card-title mb-3">Nueva tarea</div>
+  <form method="post" action="{% url 'core:tarea_create' %}">
+    {% csrf_token %}
+    <input type="hidden" name="proyecto" value="{{ proyecto.pk }}">
+    <div class="row g-2">
+      <div class="col-12"><input type="text" name="titulo" class="form-control" placeholder="Título" required></div>
+      <div class="col-6">
+        <select name="estado" class="form-select">
+          {% for val, label in columnas %}<option value="{{ val }}">{{ label }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-6">
+        <select name="prioridad" class="form-select">
+          <option value="baja">Baja</option>
+          <option value="media" selected>Media</option>
+          <option value="alta">Alta</option>
+          <option value="critica">Crítica</option>
+        </select>
+      </div>
+      <div class="col-12 d-flex gap-2">
+        <button type="submit" class="btn-g">Agregar</button>
+        <button type="button" class="btn-g-ghost" onclick="document.getElementById('form-tarea').classList.add('d-none')">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Kanban board -->
+<div class="kanban-board">
+  {% for col_val, col_label in columnas %}
+  <div class="kanban-col">
+    <div class="kanban-col-header">
+      {{ col_label }}
+      <span style="background:var(--bg-base);border-radius:999px;padding:0.1rem 0.5rem;font-size:0.7rem;">{{ tareas_por_col|get_item:col_val|length }}</span>
+    </div>
+    <div class="kanban-cards" data-estado="{{ col_val }}">
+      {% for tarea in tareas_por_col|get_item:col_val %}
+      <div class="kanban-card" data-id="{{ tarea.pk }}">
+        <div class="kanban-card-title">{{ tarea.titulo }}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.4rem;">
+          <span class="badge-estado badge-{{ tarea.prioridad }}" style="font-size:0.62rem;">{{ tarea.get_prioridad_display }}</span>
+          <button class="tarea-delete" data-id="{{ tarea.pk }}" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:0.8rem;padding:0;">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <!-- Mover a -->
+        <select class="mover-estado" data-id="{{ tarea.pk }}" style="margin-top:0.5rem;font-size:0.7rem;width:100%;background:var(--bg-base);border:1px solid var(--border);color:var(--text-2);border-radius:6px;padding:0.2rem 0.4rem;">
+          {% for val, label in columnas %}
+          <option value="{{ val }}" {% if tarea.estado == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const csrfToken = '{{ csrf_token }}';
+function post(url, data) {
+  return fetch(url, {method:'POST', headers:{'X-CSRFToken':csrfToken,'Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams(data)}).then(r=>r.json());
+}
+document.querySelectorAll('.mover-estado').forEach(sel => {
+  sel.addEventListener('change', function() {
+    post(`/tareas/${this.dataset.id}/estado/`, {estado: this.value}).then(d => { if(d.ok) location.reload(); });
+  });
+});
+document.querySelectorAll('.tarea-delete').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if(confirm('¿Eliminar?')) post(`/tareas/${this.dataset.id}/eliminar/`, {}).then(d => { if(d.ok) location.reload(); });
+  });
+});
+</script>
+{% endblock %}

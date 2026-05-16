@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Soporte{% endblock %}
+{% block topbar_title %}Soporte & Tickets{% endblock %}
+{% block content %}
+<div class="g-card">
+  <div class="g-card-header">
+    <span class="g-card-title">Todos los tickets</span>
+    <div style="display:flex;gap:0.4rem;">
+      <a href="{% url 'core:soporte' %}" class="btn-g-ghost" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Todos</a>
+      <a href="?estado=abierto" class="btn-g-ghost" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Abiertos</a>
+      <a href="?estado=en_proceso" class="btn-g-ghost" style="font-size:0.75rem;padding:0.3rem 0.7rem;">En proceso</a>
+      <a href="?estado=resuelto" class="btn-g-ghost" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Resueltos</a>
+    </div>
+  </div>
+  <table class="g-table">
+    <thead><tr><th>Ticket</th><th>Proyecto</th><th>Tipo</th><th>Prioridad</th><th>Estado</th><th>Fecha</th></tr></thead>
+    <tbody>
+      {% for t in tickets %}
+      <tr>
+        <td style="color:var(--text-1);font-weight:500;">{{ t.titulo|truncatechars:50 }}</td>
+        <td><a href="{% url 'core:proyecto_detail' t.proyecto.pk %}">{{ t.proyecto.nombre }}</a></td>
+        <td style="color:var(--text-3);">{{ t.get_tipo_display }}</td>
+        <td><span class="badge-estado badge-{{ t.prioridad }}">{{ t.get_prioridad_display }}</span></td>
+        <td>
+          <select class="soporte-estado" data-id="{{ t.pk }}" style="font-size:0.72rem;background:var(--bg-hover);border:1px solid var(--border-2);color:var(--text-2);border-radius:6px;padding:0.15rem 0.4rem;">
+            {% for val, label in t.ESTADO_CHOICES %}<option value="{{ val }}" {% if t.estado == val %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+        </td>
+        <td style="color:var(--text-3);font-size:0.78rem;">{{ t.creado|date:"d/m/Y" }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6"><div class="empty-state"><i class="bi bi-headset"></i><p>Sin tickets</p></div></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.querySelectorAll('.soporte-estado').forEach(sel => {
+  sel.addEventListener('change', function() {
+    fetch(`/soporte/${this.dataset.id}/estado/`, {method:'POST', headers:{'X-CSRFToken':'{{ csrf_token }}','Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams({estado: this.value})});
+  });
+});
+</script>
+{% endblock %}
