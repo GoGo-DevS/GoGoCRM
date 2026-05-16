@@ -35,6 +35,7 @@ document.querySelectorAll('#navbarNav .nav-link').forEach(link => {
 
 /* ============================================================
    SCROLL REVEAL — Intersection Observer
+   Delay escalonado en cards: 0, 100, 200 ms...
 ============================================================ */
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -43,7 +44,6 @@ const revealObserver = new IntersectionObserver((entries) => {
         const el = entry.target;
         const parent = el.parentElement;
 
-        // Escalonar hermanos directos no revelados aún
         const siblings = Array.from(parent.querySelectorAll(':scope > .reveal:not(.revealed)'));
 
         if (siblings.length > 1) {
@@ -51,7 +51,7 @@ const revealObserver = new IntersectionObserver((entries) => {
                 setTimeout(() => {
                     sibling.classList.add('revealed');
                     revealObserver.unobserve(sibling);
-                }, i * 90);
+                }, i * 100);
             });
         } else {
             el.classList.add('revealed');
@@ -59,7 +59,7 @@ const revealObserver = new IntersectionObserver((entries) => {
         }
     });
 }, {
-    threshold: 0.12,
+    threshold: 0.15,
     rootMargin: '0px 0px -40px 0px'
 });
 
