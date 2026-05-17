@@ -840,11 +840,16 @@ section { padding: 6rem 0; }
 .about-stat-item {
     display: flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.55rem;
     font-size: 0.9rem;
     color: var(--color-gray);
 }
-.about-stat-emoji { font-size: 1rem; line-height: 1; }
+.about-stat-icon {
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--color-pink-accent);
+    flex-shrink: 0;
+}
 
 .about-image-wrapper {
     border-radius: var(--radius);
@@ -1109,4 +1114,41 @@ section { padding: 6rem 0; }
 @media (max-width: 480px) {
     .hero-title { font-size: clamp(2rem, 10vw, 2.6rem); }
     .about-initials { font-size: 5rem; }
+    .section-title { font-size: 1.6rem; }
+    section { padding: 3rem 0; }
+    .team-card { padding: 1.5rem 1.25rem; }
+    .service-card { padding: 1.5rem 1.25rem; }
+    .product-info { padding: 1.2rem; }
+    .footer-brand { font-size: 1.35rem; }
+}
+
+@media (max-width: 375px) {
+    .hero-title { font-size: 1.85rem; }
+    .btn-hero-primary,
+    .btn-hero-secondary { max-width: 100%; width: 100%; font-size: 0.9rem; padding: 0.8rem 1.5rem; }
+    .gallery-grid { gap: 5px; }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET (768px - 992px)
+============================================================ */
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 160px;
+    }
+    .gallery-item--featured {
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 2;
+    }
+    .gallery-item { aspect-ratio: unset; }
+}
+
+/* Profesionales mobile: 1 columna centrada */
+@media (max-width: 575.98px) {
+    .col-10.reveal { width: 100%; }
+    .team-card { margin: 0 auto; max-width: 340px; }
+    .about-stats { flex-direction: column; gap: 0.65rem; }
+    .booking-info { flex-direction: column; gap: 0.35rem; }
+    .booking-info-sep { display: none; }
 }
