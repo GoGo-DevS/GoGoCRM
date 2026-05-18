@@ -17,7 +17,7 @@
     --color-whatsapp:     #25D366;
 
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans:  'DM Sans', system-ui, sans-serif;
+    --font-sans:  'Lato', system-ui, sans-serif;
 
     --navbar-height: 68px;
     --transition:    0.3s ease;
@@ -506,23 +506,14 @@ section { padding: 6rem 0; }
     display: flex;
     justify-content: center;
 }
-.team-photo-placeholder {
+
+.team-photo {
     width: 130px;
     height: 130px;
     border-radius: 50%;
-    background: linear-gradient(140deg, var(--color-pink-light), rgba(255,133,162,0.18));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid rgba(255,133,162,0.18);
-}
-
-.team-initials {
-    font-family: var(--font-serif);
-    font-size: 2.25rem;
-    font-weight: 600;
-    color: var(--color-pink-accent);
-    line-height: 1;
+    object-fit: cover;
+    border: 3px solid rgba(255,133,162,0.25);
+    display: block;
 }
 
 .team-name {
@@ -767,39 +758,15 @@ section { padding: 6rem 0; }
     }
 }
 
-.gallery-placeholder {
+.gallery-img {
     width: 100%;
     height: 100%;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 2.25rem;
-    color: rgba(255,133,162,0.45);
+    object-fit: cover;
+    display: block;
     transition: transform 0.5s ease;
 }
 
-.gallery-item:hover .gallery-placeholder { transform: scale(1.05); }
-
-.gallery-ph-text {
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: rgba(255,133,162,0.5);
-    text-transform: uppercase;
-}
-
-.gal-1 { background: linear-gradient(140deg, #e8d5d9, #ddc8cc); }
-.gal-2 { background: linear-gradient(140deg, #d4c0c5, #c9b4b9); }
-.gal-3 { background: linear-gradient(140deg, #e0ccd0, #d6c2c6); }
-.gal-4 { background: linear-gradient(140deg, #d8bfc4, #ceb5ba); }
-.gal-5 { background: linear-gradient(140deg, #ead5d8, #dfcacd); }
-.gal-6 { background: linear-gradient(140deg, #ddc8cc, #d2bdc1); }
-.gal-7 { background: linear-gradient(140deg, #e5d2d5, #dbc8cb); }
-.gal-8 { background: linear-gradient(140deg, #c8b4b8, #bda9ae); }
-.gal-9 { background: linear-gradient(140deg, #d6c3c7, #cbb8bc); }
+.gallery-item:hover .gallery-img { transform: scale(1.07); }
 
 .gallery-overlay {
     position: absolute;
@@ -856,32 +823,13 @@ section { padding: 6rem 0; }
     overflow: hidden;
     aspect-ratio: 4 / 3;
 }
-.about-img-placeholder {
+
+.about-img {
     width: 100%;
     height: 100%;
-    min-height: 260px;
-    background: linear-gradient(135deg, #2C1810 0%, #4A2520 50%, #2A1510 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-}
-
-.about-initials {
-    font-family: var(--font-serif);
-    font-size: 7rem;
-    font-weight: 700;
-    color: rgba(201,168,76,0.70);
-    line-height: 1;
-    letter-spacing: -0.03em;
-}
-
-.about-img-label {
-    font-family: var(--font-serif);
-    font-size: 1.15rem;
-    color: rgba(201,168,76,0.55);
-    font-style: italic;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius);
 }
 
 .map-wrapper {
