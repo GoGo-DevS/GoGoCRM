@@ -10,20 +10,24 @@
 <!-- Stats -->
 <div class="stat-grid">
   <div class="stat-card">
-    <div class="stat-label">Pipeline total</div>
-    <div class="stat-value blue">${{ total_pipeline|floatformat:0 }}</div>
+    <div class="stat-label"><i class="bi bi-people me-1" style="color:var(--blue-2)"></i>Total clientes</div>
+    <div class="stat-value blue">{{ total_clientes }}</div>
+    <div style="font-size:0.72rem;color:var(--text-3);margin-top:0.25rem;">{{ total_proyectos }} proyecto{{ total_proyectos|pluralize:"s" }} en total</div>
   </div>
   <div class="stat-card">
-    <div class="stat-label">Cobrado</div>
-    <div class="stat-value green">${{ total_cobrado|floatformat:0 }}</div>
+    <div class="stat-label"><i class="bi bi-kanban me-1" style="color:var(--green)"></i>Proyectos activos</div>
+    <div class="stat-value green">{{ proyectos_activos_count }}</div>
+    <div style="font-size:0.72rem;color:var(--text-3);margin-top:0.25rem;">de {{ total_proyectos }} en cartera</div>
   </div>
   <div class="stat-card">
-    <div class="stat-label">Por cobrar</div>
-    <div class="stat-value amber">${{ por_cobrar|floatformat:0 }}</div>
+    <div class="stat-label"><i class="bi bi-clock me-1" style="color:var(--amber)"></i>Pagos pendientes</div>
+    <div class="stat-value amber">{{ pagos_pendientes_count }}</div>
+    <div style="font-size:0.72rem;color:var(--text-3);margin-top:0.25rem;">${{ por_cobrar|floatformat:0 }} por cobrar</div>
   </div>
   <div class="stat-card">
-    <div class="stat-label">Clientes / Proyectos</div>
-    <div class="stat-value">{{ total_clientes }} / {{ total_proyectos }}</div>
+    <div class="stat-label"><i class="bi bi-graph-up me-1" style="color:var(--gold)"></i>Ingresos totales</div>
+    <div class="stat-value" style="color:var(--gold)">${{ total_cobrado|floatformat:0 }}</div>
+    <div style="font-size:0.72rem;color:var(--text-3);margin-top:0.25rem;">Pipeline: ${{ total_pipeline|floatformat:0 }}</div>
   </div>
 </div>
 

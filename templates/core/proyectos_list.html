@@ -4,12 +4,20 @@
 {% block topbar_actions %}<a href="{% url 'core:proyecto_create' %}" class="btn-g"><i class="bi bi-plus"></i> Nuevo proyecto</a>{% endblock %}
 {% block content %}
 <div class="g-card">
-  <div class="g-card-header">
+  <div class="g-card-header" style="flex-wrap:wrap;gap:0.75rem;">
     <span class="g-card-title">Todos los proyectos</span>
-    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
-      <a href="{% url 'core:proyectos' %}" class="btn-g-ghost {% if not estado_filter %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Todos</a>
+    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:0.7rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;">Estado:</span>
+      <a href="{% url 'core:proyectos' %}{% if tipo_filter %}?tipo={{ tipo_filter }}{% endif %}" class="btn-g-ghost {% if not estado_filter %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Todos</a>
       {% for val, label in estados %}
-      <a href="?estado={{ val }}" class="btn-g-ghost {% if estado_filter == val %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">{{ label }}</a>
+      <a href="?estado={{ val }}{% if tipo_filter %}&tipo={{ tipo_filter }}{% endif %}" class="btn-g-ghost {% if estado_filter == val %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">{{ label }}</a>
+      {% endfor %}
+    </div>
+    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:0.7rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;">Tipo:</span>
+      <a href="{% url 'core:proyectos' %}{% if estado_filter %}?estado={{ estado_filter }}{% endif %}" class="btn-g-ghost {% if not tipo_filter %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Todos</a>
+      {% for val, label in tipos %}
+      <a href="?tipo={{ val }}{% if estado_filter %}&estado={{ estado_filter }}{% endif %}" class="btn-g-ghost {% if tipo_filter == val %}active{% endif %}" style="font-size:0.75rem;padding:0.3rem 0.7rem;">{{ label }}</a>
       {% endfor %}
     </div>
   </div>

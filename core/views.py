@@ -35,16 +35,18 @@ def dashboard(request):
     }
 
     context = {
-        'proyectos_activos': proyectos_activos,
-        'total_pipeline':    total_pipeline,
-        'total_cobrado':     total_cobrado,
-        'por_cobrar':        por_cobrar,
-        'tareas_urgentes':   tareas_urgentes,
-        'pagos_pendientes':  pagos_pendientes,
-        'tickets_abiertos':  tickets_abiertos,
-        'estado_counts':     estado_counts,
-        'total_clientes':    Cliente.objects.count(),
-        'total_proyectos':   Proyecto.objects.count(),
+        'proyectos_activos':       proyectos_activos,
+        'proyectos_activos_count': proyectos_activos.count(),
+        'total_pipeline':          total_pipeline,
+        'total_cobrado':           total_cobrado,
+        'por_cobrar':              por_cobrar,
+        'tareas_urgentes':         tareas_urgentes,
+        'pagos_pendientes':        pagos_pendientes,
+        'pagos_pendientes_count':  Pago.objects.filter(pagado=False).count(),
+        'tickets_abiertos':        tickets_abiertos,
+        'estado_counts':           estado_counts,
+        'total_clientes':          Cliente.objects.count(),
+        'total_proyectos':         Proyecto.objects.count(),
     }
     return render(request, 'core/dashboard.html', context)
 
@@ -91,13 +93,18 @@ def cliente_edit(request, pk):
 @login_required
 def proyectos_list(request):
     estado = request.GET.get('estado', '')
+    tipo = request.GET.get('tipo', '')
     proyectos = Proyecto.objects.select_related('cliente').all()
     if estado:
         proyectos = proyectos.filter(estado=estado)
+    if tipo:
+        proyectos = proyectos.filter(tipo=tipo)
     return render(request, 'core/proyectos_list.html', {
         'proyectos': proyectos,
         'estado_filter': estado,
+        'tipo_filter': tipo,
         'estados': Proyecto.ESTADO_CHOICES,
+        'tipos': Proyecto.TIPO_CHOICES,
     })
 
 
