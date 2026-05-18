@@ -6,4 +6,5 @@ db.sqlite3
 *.log
 staticfiles/
 media/
+!sindicatoAza/media/
 .claude/
